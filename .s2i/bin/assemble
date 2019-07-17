@@ -1,0 +1,22 @@
+cp -R /tmp/src /opt/app-root/
+cd /opt/app-root/src && npm install
+
+
+# Create app directory
+mkdir -p /usr/src/clinicaltrial_UX
+# WORKDIR /usr/src/clinicaltrial_UX
+
+chown -R 1001:0 /usr/src/clinicaltrial_UX
+
+# copy our package.json and our code and run npm install. Install app dependencies
+cp /opt/app-root/package.json /usr/src/clinicaltrial_UX/
+
+# Bundle app source
+cp -R /tmp/src /usr/src/clinicaltrial_UX
+
+cd /usr/src/clinicaltrial_UX && npm install
+
+cd /usr/src/clinicaltrial_UX && npm rebuild node-sass
+cd /usr/src/clinicaltrial_UX && $(npm bin)/ng build --prod
+
+cp /usr/src/clinicaltrial_UX/dist/bjc-clinical-trial/ /usr/share/nginx/html
